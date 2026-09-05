@@ -1,0 +1,12 @@
+package com.CampusCare.complaint;
+
+public enum ComplaintStatus {
+	AWAITING_INFORMATION,
+	DEPARTMENT_ASSIGNED,
+	PENDING_DEPARTMENT_REVIEW,
+	WORKER_ASSIGNED,
+	IN_PROGRESS,
+	RESOLVED,
+	CLOSED,
+	REJECTED
+}

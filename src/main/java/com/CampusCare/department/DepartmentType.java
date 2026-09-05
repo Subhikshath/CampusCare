@@ -1,0 +1,14 @@
+package com.CampusCare.department;
+
+public enum DepartmentType {
+    ELECTRICAL_MAINTENANCE,
+    CIVIL_MAINTENANCE,
+    PLUMBING,
+    IT_SUPPORT,
+    HOUSEKEEPING,
+    HOSTEL_MAINTENANCE,
+    TRANSPORT,
+    SECURITY,
+    ADMINISTRATION,
+    GROUNDS_AND_GARDENING
+}
