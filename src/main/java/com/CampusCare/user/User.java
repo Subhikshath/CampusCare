@@ -35,6 +35,7 @@ public class User {
     private UserRole role;
 
     @Column(nullable = false)
+    @Builder.Default
     private boolean enabled = true;
 
     @Column(nullable = false, updatable = false)

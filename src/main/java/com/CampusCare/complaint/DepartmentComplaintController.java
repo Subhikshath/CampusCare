@@ -21,6 +21,20 @@ public class DepartmentComplaintController {
                 authentication.getName()));
     }
 
+        @GetMapping("/{id}")
+        public ResponseEntity<ComplaintDetailResponse> findOne(
+            @PathVariable Long id, Authentication authentication) {
+        return ResponseEntity.ok(complaintService.findDepartmentComplaintDetails(
+            authentication.getName(), id));
+        }
+
+        @GetMapping("/{id}/history")
+        public ResponseEntity<List<ComplaintHistoryResponse>> history(
+            @PathVariable Long id, Authentication authentication) {
+        return ResponseEntity.ok(complaintService.findDepartmentHistory(
+            authentication.getName(), id));
+        }
+
     @PutMapping("/{id}/worker")
     public ResponseEntity<ComplaintResponse> assignWorker(
             @PathVariable Long id,

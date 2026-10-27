@@ -3,7 +3,10 @@ package com.CampusCare.notification;
 import com.CampusCare.complaint.Complaint;
 import com.CampusCare.user.User;
 import com.CampusCare.user.UserRepository;
+import com.CampusCare.user.UserRole;
+import com.CampusCare.common.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +28,21 @@ public class NotificationService {
 				.build());
 	}
 
+	@Transactional
+	public void notifyDepartmentAdmins(Complaint complaint, String message) {
+		if (complaint.getDepartment() == null) {
+			return;
+		}
+		userRepository.findByRole(UserRole.DEPARTMENT_ADMIN).stream()
+				.filter(admin -> admin.getDepartments().stream()
+						.anyMatch(department -> department.getId().equals(complaint.getDepartment().getId())))
+				.forEach(admin -> create(admin, complaint, message));
+	}
+
 	@Transactional(readOnly = true)
 	public List<NotificationResponse> findMine(String email) {
 		Long userId = userRepository.findByCollegeEmail(email)
-				.orElseThrow(() -> new IllegalArgumentException("User not found"))
+				.orElseThrow(() -> new ResourceNotFoundException("User not found"))
 				.getId();
 		return notificationRepository.findByUserIdOrderByCreatedAtDesc(userId).stream()
 				.map(this::toResponse)
@@ -38,9 +52,9 @@ public class NotificationService {
 	@Transactional
 	public void markRead(String email, Long id) {
 		Notification notification = notificationRepository.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("Notification not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("Notification not found"));
 		if (!notification.getUser().getCollegeEmail().equals(email)) {
-			throw new IllegalArgumentException("Unauthorized notification access");
+			throw new AccessDeniedException("Unauthorized notification access");
 		}
 		notification.setRead(true);
 	}

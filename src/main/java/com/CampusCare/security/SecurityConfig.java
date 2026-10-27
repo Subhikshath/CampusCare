@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableMethodSecurity
@@ -19,6 +20,15 @@ public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
+
+        @Bean
+        public AccessDeniedHandler accessDeniedHandler() {
+                return (request, response, exception) -> {
+                        response.setStatus(403);
+                        response.setContentType("application/json");
+                        response.getWriter().write("{\"status\":403,\"error\":\"Forbidden\",\"message\":\"You do not have permission to access this resource\"}");
+                };
+        }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)
@@ -34,13 +44,20 @@ public class SecurityConfig {
                                 SessionCreationPolicy.STATELESS))
 
                 .exceptionHandling(exception ->
-                        exception.authenticationEntryPoint(authenticationEntryPoint))
+                        exception.authenticationEntryPoint(authenticationEntryPoint)
+                                .accessDeniedHandler(accessDeniedHandler()))
 
                 .authorizeHttpRequests(auth -> auth
 
                         // Login / authentication
-                        .requestMatchers("/auth/**")
+                        .requestMatchers("/", "/health")
                         .permitAll()
+
+                        .requestMatchers("/auth/login")
+                        .permitAll()
+
+                        .requestMatchers("/auth/change-password")
+                        .authenticated()
 
                         // Main Admin only
                         .requestMatchers("/admin/**")

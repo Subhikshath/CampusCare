@@ -12,4 +12,5 @@ public class WorkerAssignment {
 	String name;
 	String collegeEmail;
 	List<Long> departmentIds;
+	boolean enabled;
 }

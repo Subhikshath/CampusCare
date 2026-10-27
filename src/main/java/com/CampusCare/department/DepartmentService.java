@@ -1,5 +1,7 @@
 package com.CampusCare.department;
 
+import com.CampusCare.common.DuplicateResourceException;
+import com.CampusCare.common.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +20,10 @@ public class DepartmentService {
 		String code = normalize(request.getCode());
 
 		if (departmentRepository.existsByName(name)) {
-			throw new IllegalArgumentException("Department name already exists");
+			throw new DuplicateResourceException("Department name already exists");
 		}
 		if (departmentRepository.existsByCode(code)) {
-			throw new IllegalArgumentException("Department code already exists");
+			throw new DuplicateResourceException("Department code already exists");
 		}
 
 		Department department = Department.builder()
@@ -40,6 +42,14 @@ public class DepartmentService {
 				.toList();
 	}
 
+	@Transactional(readOnly = true)
+	public List<DepartmentResponse> findEnabled() {
+		return departmentRepository.findAll().stream()
+				.filter(Department::isEnabled)
+				.map(DepartmentResponse::from)
+				.toList();
+	}
+
 	@Transactional
 	public DepartmentResponse update(Long id, DepartmentRequest request) {
 		Department department = getById(id);
@@ -47,10 +57,10 @@ public class DepartmentService {
 		String code = normalize(request.getCode());
 
 		if (departmentRepository.existsByNameAndIdNot(name, id)) {
-			throw new IllegalArgumentException("Department name already exists");
+			throw new DuplicateResourceException("Department name already exists");
 		}
 		if (departmentRepository.existsByCodeAndIdNot(code, id)) {
-			throw new IllegalArgumentException("Department code already exists");
+			throw new DuplicateResourceException("Department code already exists");
 		}
 
 		department.setName(name);
@@ -67,7 +77,7 @@ public class DepartmentService {
 
 	private Department getById(Long id) {
 		return departmentRepository.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("Department not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("Department not found"));
 	}
 
 	private String normalize(String value) {

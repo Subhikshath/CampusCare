@@ -13,4 +13,11 @@ public interface ComplaintRepository
 	List<Complaint> findByDepartmentIdOrderByCreatedAtDesc(Long departmentId);
 
 	List<Complaint> findByDepartmentIdInOrderByCreatedAtDesc(List<Long> departmentIds);
+
+	List<Complaint> findByAssignedWorkerIdOrderByCreatedAtDesc(Long workerId);
+
+	long countByStatus(ComplaintStatus status);
+
+	@org.springframework.data.jpa.repository.Query("select c.department.name, count(c) from Complaint c where c.department is not null group by c.department.name")
+	List<Object[]> countByDepartment();
 }

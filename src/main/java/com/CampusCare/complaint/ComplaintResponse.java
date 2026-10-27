@@ -15,9 +15,12 @@ public class ComplaintResponse {
 	String additionalInformation;
 	Long studentId;
 	Long departmentId;
+	String departmentName;
 	Long assignedWorkerId;
+	boolean workerAssigned;
 	ComplaintStatus status;
 	String followUpQuestion;
 	LocalDateTime createdAt;
 	LocalDateTime updatedAt;
+	LocalDateTime resolvedAt;
 }

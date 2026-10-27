@@ -1,0 +1,140 @@
+.app-shell {
+  background:
+    radial-gradient(ellipse at 86% 0%, #e8f0d966 0, transparent 34rem),
+    var(--cream);
+}
+
+.page {
+  animation: dashboard-page-enter 360ms cubic-bezier(.2, .75, .25, 1) both;
+}
+
+.panel,
+.metric {
+  border-radius: 9px;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.panel:hover {
+  border-color: #d6e1d3;
+}
+
+.metric {
+  background: linear-gradient(135deg, #fffefa 45%, #f6f9ee);
+}
+
+.metric.amber {
+  background: linear-gradient(135deg, #fffefa 38%, #fff7e6);
+}
+
+.metric.green {
+  background: linear-gradient(135deg, #fffefa 38%, #eff8ef);
+}
+
+.metric-icon {
+  border-radius: 9px;
+}
+
+.status {
+  border-radius: 20px;
+  letter-spacing: .055em;
+}
+
+.status.department_assigned,
+.status.pending_department_review {
+  background: #ece9ff;
+  color: #6156a0;
+}
+
+.status.worker_assigned {
+  background: #e3f0ff;
+  color: #3b6792;
+}
+
+.status.in_progress {
+  background: #dff3f3;
+  color: #317083;
+}
+
+.status.resolved,
+.status.closed {
+  background: #e1f3df;
+  color: #39734e;
+}
+
+.status.rejected {
+  background: #ffebe8;
+  color: #9d5146;
+}
+
+.status.awaiting_information,
+.status.ai_analyzing,
+.status.on_hold,
+.status.waiting_for_parts,
+.status.waiting_for_access {
+  background: #fff2d6;
+  color: #8f702d;
+}
+
+.complaint-row {
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.complaint-row:hover {
+  background: #f7faef;
+}
+
+.metric-button:active,
+.queue-detail-button:active {
+  transform: translateY(1px) scale(.99);
+}
+
+@keyframes dashboard-page-enter {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.metric-button {
+  width: 100%;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.metric-button:hover,
+.metric-button:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px #15382d18;
+}
+
+.metric-button:focus-visible {
+  outline: 2px solid #6f9344;
+  outline-offset: 2px;
+}
+
+.complaint-meta {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  color: #75847c;
+  font-size: .68rem;
+}
+
+.complaint-meta span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page {
+    animation: none;
+  }
+
+  .panel,
+  .metric,
+  .complaint-row,
+  .metric-button {
+    transition: none;
+  }
+}

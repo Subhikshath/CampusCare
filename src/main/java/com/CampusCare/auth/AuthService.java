@@ -1,6 +1,7 @@
 package com.CampusCare.auth;
 
 import com.CampusCare.security.JwtUtil;
+import com.CampusCare.common.ResourceNotFoundException;
 import com.CampusCare.user.User;
 import com.CampusCare.user.UserRepository;
 import com.CampusCare.user.UserRole;
@@ -51,8 +52,7 @@ public class AuthService {
         User user = userRepository.findByCollegeEmail(
                         request.getCollegeEmail())
 
-                .orElseThrow(() ->
-                        new RuntimeException("User Not Found"));
+                        .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         String token = jwtUtil.generateToken(user);
 
@@ -76,7 +76,7 @@ public class AuthService {
     public void changePassword(String collegeEmail,
                                ChangePasswordRequest request) {
         User user = userRepository.findByCollegeEmail(collegeEmail)
-                .orElseThrow(() -> new RuntimeException("User Not Found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
             throw new IllegalArgumentException("Current password is incorrect");

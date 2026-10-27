@@ -27,8 +27,8 @@ public class Notification {
 	@Column(nullable = false, columnDefinition = "TEXT")
 	private String message;
 
-	@Column(nullable = false)
 	@Builder.Default
+	@Column(name = "is_read", nullable = false)
 	private boolean read = false;
 
 	@ManyToOne(fetch = FetchType.LAZY)

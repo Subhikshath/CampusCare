@@ -10,4 +10,5 @@ public class AIResponse {
 	private boolean sufficientInformation;
 	private String followUpQuestion;
 	private String department;
+	private String campusLocation;
 }

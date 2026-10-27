@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "departments")
@@ -30,7 +31,15 @@ public class Department {
     @Builder.Default
     private boolean enabled = true;
 
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
     @ManyToMany(mappedBy = "departments")
     @Builder.Default
     private Set<User> users = new HashSet<>();
+
+    @PrePersist
+    public void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 }

@@ -5,14 +5,42 @@
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
-    { "key": "baseUrl", "value": "http://localhost:8080" },
-    { "key": "adminToken", "value": "" },
-    { "key": "studentToken", "value": "" },
-    { "key": "departmentAdminToken", "value": "" },
-    { "key": "departmentId", "value": "1" },
-    { "key": "workerId", "value": "1" },
-    { "key": "complaintId", "value": "1" },
-    { "key": "notificationId", "value": "1" }
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    },
+    {
+      "key": "studentToken",
+      "value": ""
+    },
+    {
+      "key": "departmentAdminToken",
+      "value": ""
+    },
+    {
+      "key": "workerToken",
+      "value": ""
+    },
+    {
+      "key": "departmentId",
+      "value": "1"
+    },
+    {
+      "key": "workerId",
+      "value": "1"
+    },
+    {
+      "key": "complaintId",
+      "value": "1"
+    },
+    {
+      "key": "notificationId",
+      "value": "1"
+    }
   ],
   "item": [
     {
@@ -22,15 +50,25 @@
           "name": "Login Admin",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"collegeEmail\": \"admin@college.edu\",\n  \"password\": \"password\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/auth/login",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "login"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
             }
           },
           "event": [
@@ -48,15 +86,25 @@
           "name": "Login Student",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"collegeEmail\": \"student@college.edu\",\n  \"password\": \"password\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/auth/login",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "login"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
             }
           },
           "event": [
@@ -71,12 +119,90 @@
           ]
         },
         {
+          "name": "Login Department Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"collegeEmail\": \"facilities-admin@college.edu\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) pm.collectionVariables.set('departmentAdminToken', pm.response.json().token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login Worker",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"collegeEmail\": \"worker@college.edu\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) pm.collectionVariables.set('workerToken', pm.response.json().token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "Change Password",
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -84,8 +210,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/change-password",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "change-password"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "change-password"
+              ]
             }
           }
         }
@@ -99,8 +230,14 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -108,8 +245,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/admin/departments",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin", "departments"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "departments"
+              ]
             }
           }
         },
@@ -118,12 +260,20 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/admin/departments",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin", "departments"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "departments"
+              ]
             }
           }
         },
@@ -132,8 +282,14 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -141,8 +297,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/admin/departments/{{departmentId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin", "departments", "{{departmentId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "departments",
+                "{{departmentId}}"
+              ]
             }
           }
         },
@@ -151,12 +313,21 @@
           "request": {
             "method": "DELETE",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/admin/departments/{{departmentId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin", "departments", "{{departmentId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "departments",
+                "{{departmentId}}"
+              ]
             }
           }
         },
@@ -165,8 +336,14 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -174,8 +351,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/admin/department-admins",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin", "department-admins"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "department-admins"
+              ]
             }
           }
         },
@@ -184,8 +366,14 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -193,8 +381,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/admin/workers",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin", "workers"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "workers"
+              ]
             }
           }
         },
@@ -203,12 +396,158 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/admin/workers",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin", "workers"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "workers"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Department Admins",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/department-admins",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "department-admins"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reassign Department Admin",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[{{departmentId}}]"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/department-admins/1/departments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "department-admins",
+                "1",
+                "departments"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reassign Worker Departments",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[{{departmentId}}]"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/workers/{{workerId}}/departments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "workers",
+                "{{workerId}}",
+                "departments"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Enable or Disable Worker",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/workers/{{workerId}}/enabled?enabled=false",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "workers",
+                "{{workerId}}",
+                "enabled"
+              ],
+              "query": [
+                {
+                  "key": "enabled",
+                  "value": "false"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List All Complaints",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/complaints",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "complaints"
+              ]
             }
           }
         },
@@ -217,12 +556,20 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/admin/analytics",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin", "analytics"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "analytics"
+              ]
             }
           }
         }
@@ -236,8 +583,14 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -245,8 +598,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/student/complaints",
-              "host": ["{{baseUrl}}"],
-              "path": ["student", "complaints"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "student",
+                "complaints"
+              ]
             }
           }
         },
@@ -255,18 +613,41 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/student/complaints?status=RESOLVED&search=water&page=0&size=20&sort=createdAt,desc",
-              "host": ["{{baseUrl}}"],
-              "path": ["student", "complaints"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "student",
+                "complaints"
+              ],
               "query": [
-                { "key": "status", "value": "RESOLVED" },
-                { "key": "search", "value": "water" },
-                { "key": "page", "value": "0" },
-                { "key": "size", "value": "20" },
-                { "key": "sort", "value": "createdAt,desc" }
+                {
+                  "key": "status",
+                  "value": "RESOLVED"
+                },
+                {
+                  "key": "search",
+                  "value": "water"
+                },
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                },
+                {
+                  "key": "sort",
+                  "value": "createdAt,desc"
+                }
               ]
             }
           }
@@ -276,12 +657,21 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/student/complaints/{{complaintId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["student", "complaints", "{{complaintId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "student",
+                "complaints",
+                "{{complaintId}}"
+              ]
             }
           }
         },
@@ -290,12 +680,22 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/student/complaints/{{complaintId}}/history",
-              "host": ["{{baseUrl}}"],
-              "path": ["student", "complaints", "{{complaintId}}", "history"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "student",
+                "complaints",
+                "{{complaintId}}",
+                "history"
+              ]
             }
           }
         },
@@ -304,8 +704,14 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -313,26 +719,15 @@
             },
             "url": {
               "raw": "{{baseUrl}}/student/complaints/{{complaintId}}/follow-up",
-              "host": ["{{baseUrl}}"],
-              "path": ["student", "complaints", "{{complaintId}}", "follow-up"]
-            }
-          }
-        },
-        {
-          "name": "Upload Complaint Image",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
-            ],
-            "body": {
-              "mode": "formdata",
-              "formdata": [{ "key": "file", "type": "file", "src": "" }]
-            },
-            "url": {
-              "raw": "{{baseUrl}}/student/complaints/{{complaintId}}/images",
-              "host": ["{{baseUrl}}"],
-              "path": ["student", "complaints", "{{complaintId}}", "images"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "student",
+                "complaints",
+                "{{complaintId}}",
+                "follow-up"
+              ]
             }
           }
         }
@@ -353,8 +748,92 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/department-admin/complaints",
-              "host": ["{{baseUrl}}"],
-              "path": ["department-admin", "complaints"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "department-admin",
+                "complaints"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Department Complaint Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{departmentAdminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/department-admin/complaints/{{complaintId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "department-admin",
+                "complaints",
+                "{{complaintId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Department Complaint History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{departmentAdminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/department-admin/complaints/{{complaintId}}/history",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "department-admin",
+                "complaints",
+                "{{complaintId}}",
+                "history"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Move Complaint To Department Review",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{departmentAdminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"PENDING_DEPARTMENT_REVIEW\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/department-admin/complaints/{{complaintId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "department-admin",
+                "complaints",
+                "{{complaintId}}",
+                "status"
+              ]
             }
           }
         },
@@ -363,7 +842,10 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
               {
                 "key": "Authorization",
                 "value": "Bearer {{departmentAdminToken}}"
@@ -375,7 +857,9 @@
             },
             "url": {
               "raw": "{{baseUrl}}/department-admin/complaints/{{complaintId}}/worker",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "path": [
                 "department-admin",
                 "complaints",
@@ -390,7 +874,10 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
               {
                 "key": "Authorization",
                 "value": "Bearer {{departmentAdminToken}}"
@@ -402,12 +889,64 @@
             },
             "url": {
               "raw": "{{baseUrl}}/department-admin/complaints/{{complaintId}}/status",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "path": [
                 "department-admin",
                 "complaints",
                 "{{complaintId}}",
                 "status"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Worker Complaints",
+      "item": [
+        {
+          "name": "List Assigned Complaints",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{workerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/worker/complaints",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "worker",
+                "complaints"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Assigned Complaint Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{workerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/worker/complaints/{{complaintId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "worker",
+                "complaints",
+                "{{complaintId}}"
               ]
             }
           }
@@ -422,12 +961,19 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/notifications",
-              "host": ["{{baseUrl}}"],
-              "path": ["notifications"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications"
+              ]
             }
           }
         },
@@ -436,12 +982,56 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
             ],
             "url": {
               "raw": "{{baseUrl}}/notifications/{{notificationId}}/read",
-              "host": ["{{baseUrl}}"],
-              "path": ["notifications", "{{notificationId}}", "read"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "{{notificationId}}",
+                "read"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chatbot",
+      "item": [
+        {
+          "name": "Send Support Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"How do I report a campus maintenance issue?\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/chatbot/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chatbot",
+                "messages"
+              ]
             }
           }
         }

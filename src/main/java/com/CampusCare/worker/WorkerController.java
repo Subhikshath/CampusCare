@@ -26,4 +26,16 @@ public class WorkerController {
 	public ResponseEntity<List<WorkerAssignment>> findAll() {
 		return ResponseEntity.ok(workerService.findAll());
 	}
+
+	@PutMapping("/{id}/departments")
+	public ResponseEntity<WorkerAssignment> updateDepartments(
+			@PathVariable Long id, @RequestBody List<Long> departmentIds) {
+		return ResponseEntity.ok(workerService.updateDepartments(id, departmentIds));
+	}
+
+	@PutMapping("/{id}/enabled")
+	public ResponseEntity<WorkerAssignment> setEnabled(
+			@PathVariable Long id, @RequestParam boolean enabled) {
+		return ResponseEntity.ok(workerService.setEnabled(id, enabled));
+	}
 }
